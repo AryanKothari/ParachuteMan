@@ -17,4 +17,9 @@ class Player
     imageMode(CENTER);
     image(_player, _x, _y, width/5, height/5);
   }
+  
+  public void move()
+  {
+    _x = mouseX;
+  }
 }
