@@ -3,7 +3,9 @@ PImage skybackground;
 PImage playerpic; 
 PImage birdpic; 
 PImage cloudpic;
+boolean point = false;
 int screen = 0;
+int score = 0;
 Player player; 
 Bird[] bird = new Bird[1000];
 Cloud[] cloud = new Cloud[1000];
@@ -53,9 +55,9 @@ void setup()
 
   for (int i = 0; i<bird.length; i++)
   {
-    
-    bird[i] = new Bird(birdpic, int(random(0, width)), random(1500,300000));
-    cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(1500,300000));
+
+    bird[i] = new Bird(birdpic, int(random(0, width)), random(1500, 300000), point);
+    cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(200, 300000));
   }
 }
 
@@ -73,7 +75,14 @@ void draw()
 
   if (screen == 1)
   {
+
     background(skybackground);
+    
+    
+    fill(0, 0, 255);
+    textSize(30);
+    text(score, 190, 260);
+    
     player.draw();
     player.move();
     for (int i = 0; i<bird.length; i++)
@@ -82,6 +91,11 @@ void draw()
       bird[i].move();
       cloud[i].draw();
       cloud[i].move();
+
+      if (bird[i].pointtrue())
+      {
+        score = score + 1;
+      }
     }
   }
 }
