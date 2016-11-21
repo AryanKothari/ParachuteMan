@@ -13,8 +13,6 @@
     <li>Complete Readme</li>
     <li>Make an array of falling objects</li>
     <li>Get the player to move right and left </li>
-    <li>Task</li>
-    <li>Task</li>
   </ul>
 </div>
  
@@ -25,8 +23,6 @@
     <li>Now that I have a basic prototype working, I want to start to implement box2d</li>
     <li>Collision between bird and player</li>
     <li>Add coins for the player to catch</li>
-    <li>Task</li>
-    <li>Task</li>
   </ul>
 </p>
  
