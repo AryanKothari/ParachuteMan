@@ -3,6 +3,15 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+Minim minim;
+AudioPlayer song;
+
 Box2DProcessing box2d;
 PImage skybackground; 
 PImage playerpic; 
@@ -10,7 +19,8 @@ PImage birdpic;
 PImage cloudpic;
 PImage coinpic;
 PImage heartpic;
-boolean point = false;
+boolean point = true;
+boolean flyingpoints;
 boolean isActive = true;
 int screen = 0;
 int score = 0;
@@ -31,6 +41,10 @@ void setup()
   box2d.createWorld();
   box2d.setGravity(0, -100);
   box2d.setContinuousPhysics(true);
+
+  minim = new Minim(this); //Music 
+  song = minim.loadFile("wind.mp3");
+  song.loop();
 
   fill (0, 0, 100);
   textSize(50);
@@ -98,11 +112,15 @@ void draw()
 
   if (screen == 1)
   {
-
     background(skybackground);
+
 
     box2d.step();
 
+
+    fill(0, 0, 255);
+    textSize(30);
+    text("Score:", 360, 50);
 
     fill(0, 0, 255);
     textSize(30);
@@ -110,7 +128,8 @@ void draw()
 
     player.draw();
     player.move();
-    
+
+
     lives.draw();
 
     for (int i = 0; i<bird.length; i++)
@@ -130,9 +149,37 @@ void draw()
       {
         if (coin[i].collision())
         {
-          score = score + 1;
+          score = score + 5;
+
+          int LastTime = millis();
+          flyingpoints = true;
+          if(flyingpoints)
+          {
+          fill(255,0,0);
+          textSize(30);
+          text("5", coin[i].x(), coin[i].y());
+          }
+          
+          if(LastTime - millis() > 5)
+          {
+            flyingpoints = false;
+          }
+          
+          coin[i].kill();
         }
-        coin[i].kill();
+      }
+    }
+
+    for (int i = 0; i<bird.length; i++)
+    {
+      if (player.x() < bird[i].x() + width/15 && player.x() + width/5 > bird[i].x() 
+        && player.y() < bird[i].y() + height/15 && height/5 + player.y() > bird[i].y())
+      {
+        if (bird[i].collision())
+        {
+          lives.loselife();
+        }
+        bird[i].kill();
       }
     }
   }

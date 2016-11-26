@@ -48,4 +48,8 @@ class Coin
   {
     return _isActive;
   }
+  
+  public void flyingpoints()
+  {
+  }
 }

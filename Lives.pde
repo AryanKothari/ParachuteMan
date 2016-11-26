@@ -10,21 +10,22 @@ class Lives
     _heart = heart;
     _x = x;
     _y = y;
+    _lives = lives;
   }
 
   public void draw()
   {
-    if(_lives == 3)
-    {
-    imageMode(CENTER);
-    _heart.resize(width/15, height/15);
-    image(_heart, _x, _y);
-    imageMode(CENTER);
-    _heart.resize(width/15, height/15);
-    image(_heart, _x + 10, _y);
-    imageMode(CENTER);
-    _heart.resize(width/15, height/15);
-    image(_heart, _x + 20, _y);
-    }
+    fill(0, 0, 255);
+    textSize(30);
+    text("Lives:", 60, 50);
+
+    fill(0, 0, 255);
+    textSize(30);
+    text(_lives, 150, 50);
+  }
+  
+  public void loselife()
+  {
+    _lives = _lives - 1;
   }
 }
