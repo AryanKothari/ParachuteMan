@@ -21,6 +21,6 @@ class Cloud
 
   public void move()
   {
-    _y = _y - 5;
+    _y = _y - 2;
   }
 }

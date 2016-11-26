@@ -1,4 +1,4 @@
-class Player
+class Player extends Entity
 {
 
   private PImage _player;
@@ -16,10 +16,21 @@ class Player
   {
     imageMode(CENTER);
     image(_player, _x, _y, width/5, height/5);
+
   }
-  
+
   public void move()
   {
     _x = mouseX;
+  }
+  
+  public float x()
+  {
+    return _x;
+  }
+  
+    public float y()
+  {
+    return _y;
   }
 }

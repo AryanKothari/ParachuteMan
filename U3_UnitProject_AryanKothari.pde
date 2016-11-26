@@ -1,14 +1,24 @@
 import shiffman.box2d.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
+
+Box2DProcessing box2d;
 PImage skybackground; 
 PImage playerpic; 
 PImage birdpic; 
 PImage cloudpic;
+PImage coinpic;
+PImage heartpic;
 boolean point = false;
+boolean isActive = true;
 int screen = 0;
 int score = 0;
 Player player; 
-Bird[] bird = new Bird[1000];
-Cloud[] cloud = new Cloud[1000];
+Bird[] bird = new Bird[400];
+Cloud[] cloud = new Cloud[400];
+Coin[] coin = new Coin[200];
+Lives lives; 
 void setup()
 {
   skybackground = loadImage("sky.jpg");
@@ -16,6 +26,11 @@ void setup()
 
   background(skybackground);
   size(500, 500);
+
+  box2d = new Box2DProcessing(this);
+  box2d.createWorld();
+  box2d.setGravity(0, -100);
+  box2d.setContinuousPhysics(true);
 
   fill (0, 0, 100);
   textSize(50);
@@ -43,6 +58,8 @@ void setup()
   playerpic = loadImage("player.png");
   birdpic = loadImage("bird.png");
   cloudpic = loadImage("cloud.png");
+  coinpic = loadImage("coin.png");
+  heartpic = loadImage("heart.png");
 
   imageMode(CENTER);
   image(birdpic, 100, 380, 150, 150);
@@ -52,12 +69,18 @@ void setup()
 
 
   player = new Player(playerpic, width/2, height/3);
+  lives = new Lives(heartpic, 350, 50, 3);
 
   for (int i = 0; i<bird.length; i++)
   {
 
     bird[i] = new Bird(birdpic, int(random(0, width)), random(1500, 300000), point);
     cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(200, 300000));
+  }
+
+  for (int i = 0; i < coin.length; i++)
+  {
+    coin[i] = new Coin(coinpic, int(random(0, width)), random(200, 300000), isActive);
   }
 }
 
@@ -77,24 +100,39 @@ void draw()
   {
 
     background(skybackground);
-    
-    
+
+    box2d.step();
+
+
     fill(0, 0, 255);
     textSize(30);
-    text(score, 190, 260);
-    
+    text(score, 450, 50);
+
     player.draw();
     player.move();
+    
+    lives.draw();
+
     for (int i = 0; i<bird.length; i++)
     {
       bird[i].draw();
       bird[i].move();
       cloud[i].draw();
       cloud[i].move();
+    }
 
-      if (bird[i].pointtrue())
+    for (int i = 0; i<coin.length; i++)
+    {
+      coin[i].draw();
+      coin[i].move();
+      if (player.x() < coin[i].x() + width/30 && player.x() + width/5 > coin[i].x() 
+        && player.y() < coin[i].y() + height/30 && height/5 + player.y() > coin[i].y())
       {
-        score = score + 1;
+        if (coin[i].collision())
+        {
+          score = score + 1;
+        }
+        coin[i].kill();
       }
     }
   }

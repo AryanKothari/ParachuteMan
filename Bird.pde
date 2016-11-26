@@ -23,11 +23,8 @@ class Bird
   
   public void move()
   {
-    _y = _y - 5; 
-    if(_y < height)
-    {
-      _y = _y - 3;
-    }
+    _y = _y - 2; 
+    
     
     if(_y < 0)
     {
