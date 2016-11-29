@@ -182,5 +182,18 @@ void draw()
         bird[i].kill();
       }
     }
+    
+    if(lives.lives() == 0)
+    {
+      screen = 3;
+    }
+  }
+  
+  if(screen == 3)
+  {
+    background(0);
+    fill(255,255,255);
+    textSize(30);
+    text("You Lose", 250, 250);
   }
 }

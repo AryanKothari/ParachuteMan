@@ -1,4 +1,4 @@
-class Player extends Entity
+  class Player extends Entity
 {
 
   private PImage _player;

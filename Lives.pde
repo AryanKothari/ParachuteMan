@@ -28,4 +28,9 @@ class Lives
   {
     _lives = _lives - 1;
   }
+  
+  public int lives()
+  {
+    return _lives;
+  }
 }
