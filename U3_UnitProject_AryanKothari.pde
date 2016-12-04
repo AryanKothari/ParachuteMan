@@ -14,7 +14,7 @@ AudioPlayer song;
 
 Box2DProcessing box2d;
 PImage skybackground; 
-PImage playerpic; 
+PImage img; 
 PImage birdpic; 
 PImage cloudpic;
 PImage coinpic;
@@ -36,11 +36,13 @@ void setup()
 
   background(skybackground);
   size(500, 500);
-
+  
+ 
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
-  box2d.setGravity(0, -100);
+ box2d.setGravity(0, -5);
   box2d.setContinuousPhysics(true);
+  
 
   minim = new Minim(this); //Music 
   song = minim.loadFile("wind.mp3");
@@ -69,9 +71,11 @@ void setup()
   text("Quit", 190, 260);
 
 
-  playerpic = loadImage("player.png");
+  img = loadImage("player.png");
+  img.resize(width/5,height/5);
   birdpic = loadImage("bird.png");
   cloudpic = loadImage("cloud.png");
+  cloudpic.resize(width/15,height/15);
   coinpic = loadImage("coin.png");
   heartpic = loadImage("heart.png");
 
@@ -82,7 +86,7 @@ void setup()
   image(cloudpic, 350, 380, 150, 150);
 
 
-  player = new Player(playerpic, width/2, height/3);
+  player = new Player(width/2, height/3, img);
   lives = new Lives(heartpic, 350, 50, 3);
 
   for (int i = 0; i<bird.length; i++)
@@ -100,6 +104,9 @@ void setup()
 
 void draw()
 {
+  
+  box2d.step();
+  
   if (screen == 0 && mousePressed && mouseX > 150 && mouseX < 300 && mouseY > 150 && mouseY < 200) //Play button/Go to game
   {
     screen = 1;
@@ -115,9 +122,6 @@ void draw()
     background(skybackground);
 
 
-    box2d.step();
-
-
     fill(0, 0, 255);
     textSize(30);
     text("Score:", 360, 50);
@@ -126,8 +130,7 @@ void draw()
     textSize(30);
     text(score, 450, 50);
 
-    player.draw();
-    player.move();
+    player.Draw();
 
 
     lives.draw();
@@ -136,7 +139,7 @@ void draw()
     {
       bird[i].draw();
       bird[i].move();
-      cloud[i].draw();
+      cloud[i].Draw();
       cloud[i].move();
     }
 

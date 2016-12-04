@@ -9,8 +9,8 @@ class Entity
   
   Entity()
   {
-    _x = 0;
-    _y = 0;
+    _x = mouseX;
+    _y = height/5;
     _img  = null;
     _type = "Unknown Entity"; 
     _isActive = false;
@@ -52,7 +52,7 @@ class Entity
     FixtureDef fd = new FixtureDef();
     fd.shape = sd;
     // Parameters that affect physics check more info link for more detail
-    fd.density = 1;
+    fd.density = 3;
     fd.friction = 0.3;
     fd.restitution = 0;
 
@@ -64,8 +64,9 @@ class Entity
     bd.type = bType;
     
     //This is where we set the initial position of the _body (entity)
-    bd.position.set(box2d.coordPixelsToWorld(_x, _y));
-
+    
+    bd.position.set(box2d.coordPixelsToWorld(_x,_y));
+    
     _body = box2d.createBody(bd);
     _body.createFixture(fd);
   }
