@@ -79,6 +79,8 @@ class Cloud
 
   public void move()
   {
-    _y = _y - 2;
+    PVector pos = box2d.getBodyPixelCoordPVector(_body);
+    
+    pos.y = pos.y - 2;
   }
 }

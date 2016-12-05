@@ -2,6 +2,7 @@ import shiffman.box2d.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
+import org.jbox2d.dynamics.contacts.*;
 
 import ddf.minim.*;
 import ddf.minim.analysis.*;
@@ -36,13 +37,13 @@ void setup()
 
   background(skybackground);
   size(500, 500);
-  
- 
+
+
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
- box2d.setGravity(0, -5);
+  box2d.setGravity(0, 5);
   box2d.setContinuousPhysics(true);
-  
+
 
   minim = new Minim(this); //Music 
   song = minim.loadFile("wind.mp3");
@@ -72,11 +73,13 @@ void setup()
 
 
   img = loadImage("player.png");
-  img.resize(width/5,height/5);
+  img.resize(width/5, height/5);
   birdpic = loadImage("bird.png");
+  birdpic.resize(width/15,height/15);
   cloudpic = loadImage("cloud.png");
-  cloudpic.resize(width/15,height/15);
+  cloudpic.resize(width/15, height/15);
   coinpic = loadImage("coin.png");
+  coinpic.resize(width/30, height/30);
   heartpic = loadImage("heart.png");
 
   imageMode(CENTER);
@@ -93,7 +96,7 @@ void setup()
   {
 
     bird[i] = new Bird(birdpic, int(random(0, width)), random(1500, 300000), point);
-    cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(200, 300000));
+    cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(200, 30000));
   }
 
   for (int i = 0; i < coin.length; i++)
@@ -104,9 +107,9 @@ void setup()
 
 void draw()
 {
-  
+
   box2d.step();
-  
+
   if (screen == 0 && mousePressed && mouseX > 150 && mouseX < 300 && mouseY > 150 && mouseY < 200) //Play button/Go to game
   {
     screen = 1;
@@ -137,66 +140,96 @@ void draw()
 
     for (int i = 0; i<bird.length; i++)
     {
-      bird[i].draw();
+      bird[i].Draw();
       bird[i].move();
       cloud[i].Draw();
       cloud[i].move();
+      println(cloud[i]._x + "," + cloud[i]._y);
     }
 
     for (int i = 0; i<coin.length; i++)
     {
-      coin[i].draw();
-      coin[i].move();
-      if (player.x() < coin[i].x() + width/30 && player.x() + width/5 > coin[i].x() 
-        && player.y() < coin[i].y() + height/30 && height/5 + player.y() > coin[i].y())
-      {
-        if (coin[i].collision())
-        {
-          score = score + 5;
-
-          int LastTime = millis();
-          flyingpoints = true;
-          if(flyingpoints)
-          {
-          fill(255,0,0);
-          textSize(30);
-          text("5", coin[i].x(), coin[i].y());
-          }
-          
-          if(LastTime - millis() > 5)
-          {
-            flyingpoints = false;
-          }
-          
-          coin[i].kill();
-        }
-      }
-    }
-
-    for (int i = 0; i<bird.length; i++)
-    {
-      if (player.x() < bird[i].x() + width/15 && player.x() + width/5 > bird[i].x() 
-        && player.y() < bird[i].y() + height/15 && height/5 + player.y() > bird[i].y())
-      {
-        if (bird[i].collision())
-        {
-          lives.loselife();
-        }
-        bird[i].kill();
-      }
-    }
-    
-    if(lives.lives() == 0)
+      coin[i].Draw();
+       }
+      
+    if (lives.lives() == 0)
     {
       screen = 3;
     }
   }
-  
-  if(screen == 3)
+
+  if (screen == 3)
   {
     background(0);
-    fill(255,255,255);
+    fill(255, 255, 255);
     textSize(30);
     text("You Lose", 250, 250);
+
+
+    fill(0, 0, 255);
+    textSize(30);
+    text("Score:", 250, 200);
+
+    fill(0, 0, 255);
+    textSize(30);
+    text(score, 340, 200);
+  }
+}
+
+void beginContact(Contact cp)
+{
+  //Grab the fixtures
+  Fixture f1 = cp.getFixtureA();
+  Fixture f2 = cp.getFixtureB();
+
+  // Get both bodies from the fixtures
+  Body b1 = f1.getBody();
+  Body b2 = f2.getBody();
+
+  // Get our objects that reference these bodies
+  Object o1 = b1.getUserData();
+  Object o2 = b2.getUserData();
+
+  boolean o1IsPlayer = o1.getClass() == Player.class;
+  boolean o2IsPlayer = o2.getClass() == Player.class;
+
+  if ( o1IsPlayer || o2IsPlayer )
+  {
+    int other=0;
+    if (o1IsPlayer)
+    {
+      other = 2;
+    } else if (o2IsPlayer)
+    {
+      other = 1;
+    } else
+    {
+      println("ERROR");
+    }
+    
+    if (other == 1)
+    {
+      if (o1.getClass() == Bird.class)
+      {
+         lives.loselife();
+      } else if (o1.getClass() == Coin.class)
+      {
+        score = score + 5;
+        Coin c = (Coin)o1;
+        c.kill();
+      }
+    }
+     if (other == 2)
+    {
+      if (o1.getClass() == Bird.class)
+      {
+         lives.loselife();
+      } else if (o1.getClass() == Coin.class)
+      {
+        score = score + 5;
+        Coin c = (Coin)o2;
+        c.kill();
+      }
+    }
   }
 }
