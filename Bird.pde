@@ -23,6 +23,7 @@ class Bird
     // we can grab these from an image OR use typical width & height of rectangle
     int imgH = _bird.height;
     int imgW = _bird.width;
+    
 
 
     //Here we create the shape by FIRST converting the scalar size of our image

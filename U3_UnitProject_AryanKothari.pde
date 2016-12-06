@@ -41,7 +41,7 @@ void setup()
 
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
-  box2d.setGravity(0, 1);
+  box2d.setGravity(0,10);
   box2d.setContinuousPhysics(true);
 
 
@@ -95,13 +95,13 @@ void setup()
   for (int i = 0; i<bird.length; i++)
   {
 
-    bird[i] = new Bird(birdpic, int(random(0, width)), random(1500, 300000), point);
-    cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(200, 300000));
+    bird[i] = new Bird(birdpic, int(random(0, width)), random(1500, 30000), point);
+    cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(200, 30000));
   }
 
   for (int i = 0; i < coin.length; i++)
   {
-    coin[i] = new Coin(coinpic, int(random(0, width)), random(200, 300000), isActive);
+    coin[i] = new Coin(coinpic, int(random(0, width)), random(200, 30000), isActive);
   }
 }
 

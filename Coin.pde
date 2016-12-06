@@ -23,6 +23,7 @@ class Coin
     int imgW = _coin.width;
 
 
+
     //Here we create the shape by FIRST converting the scalar size of our image
     // to box2d's WORLD size. We divide by 2 because our x,y coordinate are located
     // in the center of the image. After we have the dimensions in box2d coordinates

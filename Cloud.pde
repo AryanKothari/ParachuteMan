@@ -21,6 +21,7 @@ class Cloud
     // we can grab these from an image OR use typical width & height of rectangle
     int imgH = _cloud.height;
     int imgW = _cloud.width;
+    
 
 
     //Here we create the shape by FIRST converting the scalar size of our image
