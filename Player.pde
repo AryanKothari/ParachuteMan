@@ -11,7 +11,7 @@ class Player //extends Entity
     _x = x;
     _y = y;
 
-    CreateBody(BodyType.KINEMATIC);
+    CreateBody(BodyType.DYNAMIC);
   }
 
   private void CreateBody(BodyType bType)
@@ -71,8 +71,8 @@ class Player //extends Entity
 
     imageMode(CENTER);
     pushMatrix();
-    translate(pos.x, pos.y);
     pos.x = mouseX;
+    translate(pos.x, pos.y);
     rotate(-a);
     image(_img, 0, 0);     //We draw it at 0,0 because we've already TRANSLATED to the correct
     popMatrix();                 // x,y using the translate function and x,y returned from box2d
