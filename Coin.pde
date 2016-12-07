@@ -14,6 +14,7 @@ class Coin
     _y = y;
     _isActive = isActive;
      CreateBody(BodyType.DYNAMIC);
+     _body.setUserData(this);
   }
    private void CreateBody(BodyType bType)
   {
@@ -43,7 +44,7 @@ class Coin
     FixtureDef fd = new FixtureDef();
     fd.shape = sd;
     // Parameters that affect physics check more info link for more detail
-    fd.density = 1;
+    fd.density = 0;
     fd.friction = 0.3;
     fd.restitution = 0;
 
@@ -69,7 +70,7 @@ class Coin
     PVector pos = box2d.getBodyPixelCoordPVector(_body);
     // Get its angle of rotation from the body. This will let us know if we need to draw it rotated or not
     float a = _body.getAngle();
-    if (isActive)
+    if (_isActive)
     {
       imageMode(CENTER);
       pushMatrix();
@@ -100,7 +101,9 @@ class Coin
     return _isActive;
   }
   
-  public void flyingpoints()
+  public void ching()
   {
+    song2.play();
+    song2.rewind();
   }
 }

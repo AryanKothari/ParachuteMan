@@ -15,6 +15,7 @@ class Bird
     _isActive = isActive;
 
     CreateBody(BodyType.DYNAMIC);
+    _body.setUserData(this);
   }
 
   private void CreateBody(BodyType bType)
@@ -71,7 +72,7 @@ class Bird
     PVector pos = box2d.getBodyPixelCoordPVector(_body);
     // Get its angle of rotation from the body. This will let us know if we need to draw it rotated or not
     float a = _body.getAngle();
-    if (isActive)
+    if (_isActive)
     {
       imageMode(CENTER);
       pushMatrix();
@@ -82,10 +83,6 @@ class Bird
     }// x,y using the translate function and x,y returned from box2d
   }
 
-  public void move()
-  {
-    _y = _y - 2;
-  }
 
   public float x()
   {
@@ -100,6 +97,7 @@ class Bird
   public void kill()
   {
     _isActive = false;
+    //box2d.destroyBody(_body);
   }
 
   public boolean collision()

@@ -12,6 +12,7 @@ import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 Minim minim;
 AudioPlayer song;
+AudioPlayer song2;
 
 Box2DProcessing box2d;
 PImage skybackground; 
@@ -41,12 +42,15 @@ void setup()
 
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
-  box2d.setGravity(0,10);
+  box2d.setGravity(random(-0.5,0.5),1);
   box2d.setContinuousPhysics(true);
+  box2d.listenForCollisions();
 
 
   minim = new Minim(this); //Music 
   song = minim.loadFile("wind.mp3");
+  song2 = minim.loadFile("CoinSoundEffect.mp3");
+ 
   song.loop();
 
   fill (0, 0, 100);
@@ -95,13 +99,13 @@ void setup()
   for (int i = 0; i<bird.length; i++)
   {
 
-    bird[i] = new Bird(birdpic, int(random(0, width)), random(1500, 30000), point);
-    cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(200, 30000));
+    bird[i] = new Bird(birdpic, int(random(0, width)), random(1500, 300000), point);
+    cloud[i] = new Cloud(cloudpic, int(random(0, width)), random(200, 300000));
   }
 
   for (int i = 0; i < coin.length; i++)
   {
-    coin[i] = new Coin(coinpic, int(random(0, width)), random(200, 30000), isActive);
+    coin[i] = new Coin(coinpic, int(random(0, width)), random(200, 300000), isActive);
   }
 }
 
@@ -134,6 +138,7 @@ void draw()
     text(score, 450, 50);
 
     player.Draw();
+    player.Update();
 
 
     lives.draw();
@@ -141,16 +146,14 @@ void draw()
     for (int i = 0; i<bird.length; i++)
     {
       bird[i].Draw();
-      bird[i].move();
       cloud[i].Draw();
-      cloud[i].move();
-      println(cloud[i]._x + "," + cloud[i]._y);
+      //println(cloud[i]._x + "," + cloud[i]._y);
     }
 
     for (int i = 0; i<coin.length; i++)
     {
       coin[i].Draw();
-       }
+    }
       
     if (lives.lives() == 0)
     {
@@ -178,6 +181,7 @@ void draw()
 
 void beginContact(Contact cp)
 {
+  println("WE HIT SOMETHING!");
   //Grab the fixtures
   Fixture f1 = cp.getFixtureA();
   Fixture f2 = cp.getFixtureB();
@@ -190,6 +194,8 @@ void beginContact(Contact cp)
   Object o1 = b1.getUserData();
   Object o2 = b2.getUserData();
 
+  println("Collision between: " + o1.getClass() + " AND " + o2.getClass());
+
   boolean o1IsPlayer = o1.getClass() == Player.class;
   boolean o2IsPlayer = o2.getClass() == Player.class;
 
@@ -199,36 +205,53 @@ void beginContact(Contact cp)
     if (o1IsPlayer)
     {
       other = 2;
-    } else if (o2IsPlayer)
+    } 
+    else if (o2IsPlayer)
     {
       other = 1;
-    } else
+    } 
+    else
     {
       println("ERROR");
     }
     
+    println("Other is: " + other);
+    
     if (other == 1)
     {
+      println("Other is: " + o1.getClass());
       if (o1.getClass() == Bird.class)
       {
+        println("This bird gonna die.");
+         Bird b = (Bird)o1;
          lives.loselife();
-      } else if (o1.getClass() == Coin.class)
+         //b.kill();
+      } 
+      else if (o1.getClass() == Coin.class)
       {
-        score = score + 5;
         Coin c = (Coin)o1;
+        score = score + 5;
         c.kill();
+        c.ching();
       }
     }
-     if (other == 2)
+    
+    if (other == 2)
     {
-      if (o1.getClass() == Bird.class)
+      println("Other is: " + o2.getClass());
+      if (o2.getClass() == Bird.class)
       {
-         lives.loselife();
-      } else if (o1.getClass() == Coin.class)
+        println("This bird gonna die.");
+        Bird b = (Bird)o2;
+        lives.loselife();
+        //b.kill();
+      } 
+      else if (o2.getClass() == Coin.class)
       {
-        score = score + 5;
         Coin c = (Coin)o2;
+        score = score + 5;
         c.kill();
+        c.ching();
       }
     }
   }

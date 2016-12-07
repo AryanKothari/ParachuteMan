@@ -5,6 +5,7 @@ class Player //extends Entity
   private float _x;
   private float _y;
   private Body _body;
+  
   Player(float x, float y, PImage img)
   {
     _img = img;
@@ -12,6 +13,8 @@ class Player //extends Entity
     _y = y;
 
     CreateBody(BodyType.DYNAMIC);
+    _body.setUserData(this);
+    
   }
 
   private void CreateBody(BodyType bType)
@@ -45,12 +48,14 @@ class Player //extends Entity
     fd.density = 1;
     fd.friction = 0.3;
     fd.restitution = 0;
+    
 
     //BodyDefs are a body definition holds all the data needed to construct a rigid body. 
     // You can safely re-use body definitions. Shapes are added to a body after construction.
 
     //Define the body and make it from the shape
     BodyDef bd = new BodyDef();
+    bd.setGravityScale(0);
     bd.type = bType;
 
     //This is where we set the initial position of the _body (entity)
@@ -58,7 +63,6 @@ class Player //extends Entity
 
     _body = box2d.createBody(bd);
     _body.createFixture(fd);
-    bd.setGravityScale(0);
   }
 
 
@@ -73,11 +77,19 @@ class Player //extends Entity
 
     imageMode(CENTER);
     pushMatrix();
-    pos.x = mouseX;
     translate(pos.x, pos.y);
-    rotate(-a);
+    //rotate(-a);
     image(_img, 0, 0);     //We draw it at 0,0 because we've already TRANSLATED to the correct
     popMatrix();                 // x,y using the translate function and x,y returned from box2d
+  }
+  
+  public void Update()
+  {
+    //PVector pos = box2d.getBodyPixelCoordPVector(_body);
+    Vec2 newPos = box2d.coordPixelsToWorld(mouseX, _y);
+    //Vec2 newPos = new Vec2(mouseX, pos.y);
+    _body.setTransform(newPos, _body.getAngle());
+        //bd.position.set(box2d.coordPixelsToWorld(mouseX, _y));
   }
 
   public float x()

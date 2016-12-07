@@ -13,6 +13,7 @@ class Cloud
     _y = y;
 
     CreateBody(BodyType.DYNAMIC);
+    _body.setUserData(this);
   }
 
   private void CreateBody(BodyType bType)
@@ -43,7 +44,7 @@ class Cloud
     FixtureDef fd = new FixtureDef();
     fd.shape = sd;
     // Parameters that affect physics check more info link for more detail
-    fd.density = 1;
+    fd.density = 0;
     fd.friction = 0.3;
     fd.restitution = 0;
 
