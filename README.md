@@ -31,11 +31,11 @@
   Milestone #3: December 5th, 2015 (For C block) </h3>
   <strong>Goal:</strong> You should have iterated and improved on your prototype by the end of this milestone.
   <ul>
-    <li>Task</li>
-    <li>Task</li>
-    <li>Task</li>
-    <li>Task</li>
-    <li>Task</li>
+    <li>Cause the collisions when box2d is on to work and increase/decrease the score</li>
+    <li>make a losing screen and change gravity</li>
+    <li>make a home screen</li>
+    <li>when the bird gets hit, have it fall down</li>
+    <li>incoroporate music and other sound effects</li>
   </ul>
 </div>
  
