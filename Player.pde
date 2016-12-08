@@ -91,7 +91,12 @@ class Player //extends Entity
     _body.setTransform(newPos, _body.getAngle());
         //bd.position.set(box2d.coordPixelsToWorld(mouseX, _y));
   }
-
+  
+    public void applyForce(Vec2 force) {
+    Vec2 pos = _body.getWorldCenter();
+    _body.applyForce(force, pos);
+  }
+  
   public float x()
   {
     PVector pos = box2d.getBodyPixelCoordPVector(_body);

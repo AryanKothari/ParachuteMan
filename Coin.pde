@@ -1,4 +1,4 @@
-class Coin
+class Coin extends Entity
 {
   private PImage _coin;
   private float _x;
@@ -94,6 +94,11 @@ class Coin
   public void kill()
   {
     _isActive = false;
+  }
+  
+  public void killbox2dbody()
+  {
+    box2d.destroyBody(_body);
   }
   
   public boolean collision()

@@ -44,7 +44,7 @@ class Cloud
     FixtureDef fd = new FixtureDef();
     fd.shape = sd;
     // Parameters that affect physics check more info link for more detail
-    fd.density = 0;
+    fd.density = 0.5;
     fd.friction = 0.3;
     fd.restitution = 0;
 

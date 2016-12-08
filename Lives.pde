@@ -17,11 +17,11 @@ class Lives
   {
     fill(0, 0, 255);
     textSize(30);
-    text("Lives:", 60, 50);
+    text("Lives:", width/8.33, height/10);
 
     fill(0, 0, 255);
     textSize(30);
-    text(_lives, 150, 50);
+    text(_lives, width/3.33, height/10);
   }
   
   public void loselife()

@@ -24,7 +24,7 @@ class Bird
     // we can grab these from an image OR use typical width & height of rectangle
     int imgH = _bird.height;
     int imgW = _bird.width;
-    
+
 
 
     //Here we create the shape by FIRST converting the scalar size of our image
@@ -46,9 +46,10 @@ class Bird
     FixtureDef fd = new FixtureDef();
     fd.shape = sd;
     // Parameters that affect physics check more info link for more detail
-    fd.density = 1;
+    fd.density = 0.05;
     fd.friction = 0.3;
     fd.restitution = 0;
+
 
     //BodyDefs are a body definition holds all the data needed to construct a rigid body. 
     // You can safely re-use body definitions. Shapes are added to a body after construction.
@@ -103,5 +104,16 @@ class Bird
   public boolean collision()
   {
     return _isActive;
+  }
+
+  void applyForce(Vec2 force) {
+    Vec2 pos = _body.getWorldCenter();
+    _body.applyForce(force, pos);
+  }
+
+  public void ouch()
+  {
+    ouch.play();
+    ouch.rewind();
   }
 }
