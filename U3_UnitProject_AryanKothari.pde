@@ -1,9 +1,9 @@
 /*
 Hey Friends! This is my Parachute Man Project. The goal of this game is to collect the coins
-while at the same time making sure to dodge the birds! Also remember use the clouds as an obstacle!
-Good Luck
-- Aryan Kothari
-*/
+ while at the same time making sure to dodge the birds! Also remember use the clouds as an obstacle!
+ Good Luck
+ - Aryan Kothari
+ */
 import shiffman.box2d.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
@@ -34,6 +34,7 @@ boolean isActive = true;
 int screen = 0;
 int score = 0;
 int health = 3;
+boolean killCoin = false;
 float s = second();
 Player player; 
 Bird[] bird = new Bird[400];
@@ -83,7 +84,7 @@ void setup()
   textSize(30);
   text("Quit", width/2.63, height/1.92);
 
-//changing and uploading pics
+  //changing and uploading pics
   img = loadImage("player.png");
   img.resize(width/5, height/5);
   birdpic = loadImage("bird.png");
@@ -159,9 +160,15 @@ void draw()
       //println(cloud[i]._x + "," + cloud[i]._y);
     }
 
-    for (int i = 0; i<200; i++)
+    for (int i = 0; i<coins.size(); i++)
     {
-      coins.get(i).Draw();
+      if (coins.get(i)._isActive())
+      {
+        coins.get(i).Draw();
+      } else
+      {
+        coins.remove(coins.get(i));
+      }
     }
 
     if (lives.lives() == 0)
@@ -193,6 +200,10 @@ void draw()
       box2d.setGravity(0, 1);
       score = 0;
       health = 3;
+    }
+
+    if (killCoin == true)
+    {
     }
   }
 }
@@ -255,7 +266,6 @@ void beginContact(Contact cp) //start of collision code using box2d
             c.kill();
             c.ching();
             s = second();
-            // c.killbox2dbody();
           }
         }
       }

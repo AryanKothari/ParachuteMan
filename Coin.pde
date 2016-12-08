@@ -101,7 +101,7 @@ class Coin extends Entity
     box2d.destroyBody(_body);
   }
   
-  public boolean collision()
+  public boolean _isActive()
   {
     return _isActive;
   }
