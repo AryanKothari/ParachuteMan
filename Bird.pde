@@ -115,5 +115,6 @@ class Bird
   {
     ouch.play();
     ouch.rewind();
+    _body.setGravityScale(-100);
   }
 }

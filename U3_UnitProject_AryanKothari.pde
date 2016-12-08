@@ -28,6 +28,7 @@ boolean isActive = true;
 int screen = 0;
 int score = 0;
 int health = 3;
+float s = second();
 Player player; 
 Bird[] bird = new Bird[400];
 Cloud[] cloud = new Cloud[400];
@@ -39,7 +40,7 @@ void setup()
   skybackground.resize(width, height);
 
   background(skybackground);
-  size(500,500);
+  size(500, 500);
 
 
   box2d = new Box2DProcessing(this);
@@ -241,11 +242,15 @@ void beginContact(Contact cp)
           b.applyForce(wind);
         } else if (o1.getClass() == Coin.class)
         {
-          Coin c = (Coin)o1;
-          score = score + 5;
-          c.kill();
-          c.ching();
-          c.killbox2dbody();
+          if (s > 1)
+          {
+            Coin c = (Coin)o1;
+            score = score + 5;
+            c.kill();
+            c.ching();
+            s = second();
+            // c.killbox2dbody();
+          }
         }
       }
 
@@ -264,10 +269,13 @@ void beginContact(Contact cp)
         } else if (o2.getClass() == Coin.class)
         {
           Coin c = (Coin)o2;
-          score = score + 5;
-          c.kill();
-          c.ching();
-          c.killbox2dbody();
+          if (s > 1)
+          {
+            score = score + 5;
+            c.kill();
+            c.ching();
+            s = second();
+          }
         }
       }
     }
