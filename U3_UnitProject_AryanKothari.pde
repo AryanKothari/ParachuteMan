@@ -1,3 +1,9 @@
+/*
+Hey Friends! This is my Parachute Man Project. The goal of this game is to collect the coins
+while at the same time making sure to dodge the birds! Also remember use the clouds as an obstacle!
+Good Luck
+- Aryan Kothari
+*/
 import shiffman.box2d.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
@@ -77,7 +83,7 @@ void setup()
   textSize(30);
   text("Quit", width/2.63, height/1.92);
 
-
+//changing and uploading pics
   img = loadImage("player.png");
   img.resize(width/5, height/5);
   birdpic = loadImage("bird.png");
@@ -98,7 +104,7 @@ void setup()
   player = new Player(width/2, height/3, img);
   lives = new Lives(heartpic, width/1.42, height/10, health);
 
-  for (int i = 0; i<bird.length; i++)
+  for (int i = 0; i<bird.length; i++) //Coding the classes 
   {
 
     bird[i] = new Bird(birdpic, int(random(0, width)), random(height/0.2, height/0.0016), point);
@@ -164,8 +170,8 @@ void draw()
     }
   }
 
-  if (screen == 3)
-  {
+  if (screen == 3) //losing screen
+  { 
     background(0);
     song.pause();
     fill(255, 255, 255);
@@ -181,7 +187,7 @@ void draw()
     textSize(30);
     text(score, width/1.47, height/2.5);
 
-    if (keyCode == ENTER)
+    if (keyCode == ENTER) //restart button
     {
       screen = 1;
       box2d.setGravity(0, 1);
@@ -191,7 +197,7 @@ void draw()
   }
 }
 
-void beginContact(Contact cp)
+void beginContact(Contact cp) //start of collision code using box2d
 {
   if (screen == 1)
   {
