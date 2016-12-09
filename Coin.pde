@@ -110,5 +110,6 @@ class Coin extends Entity
   {
     song2.play();
     song2.rewind();
+    _body.setGravityScale(1000);
   }
 }

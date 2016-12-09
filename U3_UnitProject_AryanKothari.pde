@@ -259,14 +259,10 @@ void beginContact(Contact cp) //start of collision code using box2d
           b.applyForce(wind);
         } else if (o1.getClass() == Coin.class)
         {
-          if (s > 1)
-          {
             Coin c = (Coin)o1;
             score = score + 5;
             c.kill();
             c.ching();
-            s = second();
-          }
         }
       }
 
@@ -285,13 +281,9 @@ void beginContact(Contact cp) //start of collision code using box2d
         } else if (o2.getClass() == Coin.class)
         {
           Coin c = (Coin)o2;
-          if (s > 1)
-          {
             score = score + 5;
             c.kill();
             c.ching();
-            s = second();
-          }
         }
       }
     }
